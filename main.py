@@ -6,22 +6,23 @@ import datetime
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
 from flask_restful import Resource, Api
+from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
-api = Api(app)
-
 app.static_folder = 'static'
-
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////tmp/main.db'
+api = Api(app)
+db = SQLAlchemy(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
 class Find(Resource):
     def post(self):
         cameras = [
-            {"url": "192.168.31.151", "location": "702A"},
-            {"url": "192.168.31.181", "location": "702B"},
-            {"url": "192.168.31.153", "location": "703A"},
-            {"url": "192.168.31.134", "location": "703B"},
+            { "url": "192.168.31.151", "location": "702A" },
+            { "url": "192.168.31.181", "location": "702B" },
+            { "url": "192.168.31.153", "location": "703A" },
+            { "url": "192.168.31.134", "location": "703B" },
         ]
 
         payload = {
@@ -50,6 +51,9 @@ class Find(Resource):
         def takeDatetime(e):
             return e['datetime']
         bunch.sort(key=takeDatetime)
+
+
+
         result = dict()
         result["data"] = bunch
         return result
