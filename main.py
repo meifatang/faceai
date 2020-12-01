@@ -46,8 +46,7 @@ def find():
                         people["username"] = "曹競"
                     if people["username"] == "周min":
                         people["username"] = "周旻"
-                    bunch.append( { "datetime": people["datetime"], "username": people["username"], "image_url": "/static/33cn/"+people["username"]+".jpg" } )
-                    # print(people["datetime"], people["username"])
+                    bunch.append( { "datetime": people["datetime"], "username": people["username"], "image_url": "http://localhost:5000/static/33cn/"+people["username"]+".jpg" } )
                 result = dict()
                 result["data"] = bunch
                 return result
