@@ -14,6 +14,7 @@ app.static_folder = 'static'
 
 CORS(app, resources={r'/*': {'origins': '*'}})
 
+
 class Find(Resource):
     def post(self):
         cameras = [
@@ -46,6 +47,9 @@ class Find(Resource):
                     bunch.append( { "datetime": people["datetime"], "location": people["location"], "username": people["username"], "image_url": "http://localhost:5000/static/33cn/"+people["username"]+".jpg" } )
             else:
                 return "nobody"
+        def takeDatetime(e):
+            return e['datetime']
+        bunch.sort(key=takeDatetime)
         result = dict()
         result["data"] = bunch
         return result
