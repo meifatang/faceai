@@ -5,21 +5,17 @@ import datetime
 
 from flask import Flask, render_template, request, jsonify
 from flask_cors import CORS
+from flask_restful import Resource, Api
 
 app = Flask(__name__)
+api = Api(app)
+
 app.static_folder = 'static'
 
 CORS(app, resources={r'/*': {'origins': '*'}})
 
-@app.route('/')
-def index():
-    return render_template("main.html")
-
-@app.route('/find', methods=['GET', "POST"])
-def find():
-    if request.method == "GET":
-        return "to get info, please use post method."
-    else:
+class Find(Resource):
+    def post(self):
         cameras = [
             {"url": "192.168.31.151", "location": "702A"},
             {"url": "192.168.31.181", "location": "702B"},
@@ -54,6 +50,8 @@ def find():
         result["data"] = bunch
         return result
 
-@app.route('/ping', methods=['GET'])
-def ping_pong():
-    return jsonify('pong!')
+api.add_resource(Find, '/find')
+
+
+if __name__ == '__main__':
+    app.run(debug=True)
