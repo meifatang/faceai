@@ -20,11 +20,11 @@ def find():
     if request.method == "GET":
         return "to get info, please use post method."
     else:
-        urls = [
-            "192.168.31.151",
-            # "192.168.31.181",
-            # "192.168.31.153",
-            # "192.168.31.134",
+        cameras = [
+            {"url": "192.168.31.151", "location": "702A"},
+            {"url": "192.168.31.181", "location": "702B"},
+            {"url": "192.168.31.153", "location": "703A"},
+            {"url": "192.168.31.134", "location": "703B"},
         ]
 
         payload = {
@@ -35,24 +35,24 @@ def find():
             'Content-Type': 'application/x-www-form-urlencoded'
         }
 
-        for url in urls:
-            response = requests.request("POST", "http://" + url + "/person/record/query/time", headers=headers, data=payload)
+        bunch = list()
+        for camera in cameras:
+            response = requests.request("POST", "http://" + camera["url"] + "/person/record/query/time", headers=headers, data=payload)
             content = response.text
             data = json.loads(content)
             if data["data"]:
-                bunch = list()
                 for people in data["data"]:
                     if people["username"] == "曹jing":
                         people["username"] = "曹競"
                     if people["username"] == "周min":
                         people["username"] = "周旻"
-                    bunch.append( { "datetime": people["datetime"], "username": people["username"], "image_url": "http://localhost:5000/static/33cn/"+people["username"]+".jpg" } )
-                result = dict()
-                result["data"] = bunch
-                return result
+                    people["location"] = camera["location"]
+                    bunch.append( { "datetime": people["datetime"], "location": people["location"], "username": people["username"], "image_url": "http://localhost:5000/static/33cn/"+people["username"]+".jpg" } )
             else:
                 return "nobody"
-
+        result = dict()
+        result["data"] = bunch
+        return result
 
 @app.route('/ping', methods=['GET'])
 def ping_pong():
