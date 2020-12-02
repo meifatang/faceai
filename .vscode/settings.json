@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/Users/felix/Desktop/faceai/venv/bin/python3.9"
+    "python.pythonPath": "/Users/felix/Desktop/faceai/venv/bin/python3.9",
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_flask_sqlalchemy", "pylint_flask"]
 }
