@@ -16,6 +16,16 @@ db = SQLAlchemy(app)
 CORS(app, resources={r'/*': {'origins': '*'}})
 
 
+class People(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    datetime = db.Column(db.DateTime, nullable=False)
+    location = db.Column(db.String(10), nullable=False)
+    username = db.Column(db.String(20), nullable=False)
+
+    def __repr__(self):
+        return '<User %r>' % self.username
+
+
 class Find(Resource):
     def post(self):
         cameras = [
