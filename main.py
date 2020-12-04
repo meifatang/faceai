@@ -20,17 +20,21 @@ class People(db.Model):
     __tablename__ = "people"
 
     id = db.Column(db.Integer, primary_key=True)
-    datetime = db.Column(db.DateTime, nullable=False)
+    date = db.Column(db.Date, nullable=False)
+    time = db.Column(db.Time, nullable=False)
     location = db.Column(db.String(10), nullable=False)
     username = db.Column(db.String(20), nullable=False)
     image_url = db.Column(db.String(50), nullable=False)
+    status = db.Column(db.String(20), nullable=False)
 
     def get(self):
         return {
-            'datetime': self.datetime,
+            'datet': self.date,
+            'time': self.time.strftime('%H:%M:%S'),
             'location': self.location,
             'username': self.username,
-            'image_url': self.image_url
+            'image_url': self.image_url,
+            'status': self.status
         }
 
 class Find(Resource):
@@ -38,8 +42,7 @@ class Find(Resource):
         tmp = list()
         for i in People.query.all():
             tmp.append(i.get())
-        print(tmp[-3:])
-        return "test"
+        return jsonify({'data': tmp[-10:]})
 
 api.add_resource(Find, '/find')
 

@@ -2,9 +2,10 @@ import requests
 import datetime
 import json
 import time
-from sqlalchemy import Column, Integer, String, DateTime, create_engine
+from sqlalchemy import Column, Integer, String, Date, Time, DateTime, create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from sqlalchemy.sql import exists
 
 Base = declarative_base()
 engine = create_engine('sqlite:///sqlite.db')
@@ -15,10 +16,12 @@ class People(Base):
     __tablename__ = "people"
 
     id = Column(Integer, primary_key=True)
-    datetime = Column(DateTime, nullable=False)
+    date = Column(Date, nullable=False)
+    time = Column(Time, nullable=False)
     location = Column(String(10), nullable=False)
     username = Column(String(20), nullable=False)
     image_url = Column(String(50), nullable=False)
+    status = Column(String(20), nullable=False)
 
 
 cameras = [
@@ -52,19 +55,29 @@ while True:
                 if people["username"] == "周min":
                     people["username"] = "周旻"
                 people["location"] = camera["location"]
-                bunch.append( { "datetime": people["datetime"], "location": people["location"], "username": people["username"], "image_url": "http://192.168.31.7:5000/static/33cn/"+people["username"]+".jpg" } )
+                bunch.append({ 
+                    "date": datetime.datetime.strptime(people["datetime"], '%Y-%m-%d %H:%M:%S').date(), 
+                    'time': datetime.datetime.strptime(people["datetime"], '%Y-%m-%d %H:%M:%S').time(), 
+                    "location": people["location"], 
+                    "username": people["username"], 
+                    "image_url": "http://192.168.31.7:5000/static/33cn/"+people["username"]+".jpg" 
+                })
         else:
             pass
 
-    def takeDatetime(e):
-        return e['datetime']
-
-    bunch.sort(key=takeDatetime)
+    bunch = sorted(bunch, key=lambda x: x['date'])
+    bunch = sorted(bunch, key=lambda x: x['time'])
 
     session = Session()
     for b in bunch:
-        print(b)
-        tmp = People(datetime=datetime.datetime.strptime(b['datetime'], '%Y-%m-%d %H:%M:%S'), location=b['location'], username=b['username'], image_url=b['image_url'])
+        status = ''
+        if not session.query(People).filter_by(date=b['date'], username=b['username']).first():
+            print(b['username'], " first time enter")
+            status = "Frist"
+        else:
+            print(b['username'], " have entered")
+        
+        tmp = People(date=b['date'], time=b['time'], location=b['location'], username=b['username'], image_url=b['image_url'], status=status)
         session.add(tmp)
         session.commit()
 
