@@ -70,10 +70,7 @@ while True:
     for b in bunch:
         status = ''
         if not session.query(People).filter_by(date=b['date'], username=b['username']).first():
-            print(b['username'], " first time enter")
             status = "Frist"
-        else:
-            print(b['username'], " have entered")
         
         tmp = People(date=b['date'], time=b['time'], location=b['location'], username=b['username'], status=status)
         session.add(tmp)
