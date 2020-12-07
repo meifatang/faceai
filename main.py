@@ -32,7 +32,6 @@ class People(db.Model):
             'time': self.time.strftime('%H:%M:%S'),
             'location': self.location,
             'username': self.username,
-            'image_url': self.image_url,
             'status': self.status
         }
 

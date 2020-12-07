@@ -75,7 +75,7 @@ while True:
         else:
             print(b['username'], " have entered")
         
-        tmp = People(date=b['date'], time=b['time'], location=b['location'], username=b['username'], image_url=b['image_url'], status=status)
+        tmp = People(date=b['date'], time=b['time'], location=b['location'], username=b['username'], status=status)
         session.add(tmp)
         session.commit()
 
