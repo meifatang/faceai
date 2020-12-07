@@ -13,14 +13,14 @@ Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
 
 class People(Base):
-    __tablename__ = "people"
+    __tablename__ = "faceai"
 
     id = Column(Integer, primary_key=True)
     date = Column(Date, nullable=False)
     time = Column(Time, nullable=False)
     location = Column(String(10), nullable=False)
     username = Column(String(20), nullable=False)
-    status = Column(String(20), nullable=False)
+    status = Column(String(20))
 
 
 cameras = [

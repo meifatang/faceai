@@ -17,14 +17,14 @@ CORS(app, resources={r'/*': {'origins': '*'}})
 
 
 class People(db.Model):
-    __tablename__ = "people"
+    __tablename__ = "faceai"
 
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.Date, nullable=False)
     time = db.Column(db.Time, nullable=False)
     location = db.Column(db.String(10), nullable=False)
     username = db.Column(db.String(20), nullable=False)
-    status = db.Column(db.String(20), nullable=False)
+    status = db.Column(db.String(20))
 
     def get(self):
         return {
