@@ -40,7 +40,7 @@ class Find(Resource):
         tmp = list()
         for i in People.query.all():
             tmp.append(i.get())
-        return jsonify({'data': tmp[-10:]})
+        return jsonify({'data': tmp[-20:]})
 
 api.add_resource(Find, '/find')
 
