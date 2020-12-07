@@ -3,3 +3,4 @@ static/33cn
 venv
 __pycache__/
 tmp
+sqlite.db

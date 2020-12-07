@@ -24,7 +24,6 @@ class People(db.Model):
     time = db.Column(db.Time, nullable=False)
     location = db.Column(db.String(10), nullable=False)
     username = db.Column(db.String(20), nullable=False)
-    image_url = db.Column(db.String(50), nullable=False)
     status = db.Column(db.String(20), nullable=False)
 
     def get(self):

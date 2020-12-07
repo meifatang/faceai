@@ -20,7 +20,6 @@ class People(Base):
     time = Column(Time, nullable=False)
     location = Column(String(10), nullable=False)
     username = Column(String(20), nullable=False)
-    image_url = Column(String(50), nullable=False)
     status = Column(String(20), nullable=False)
 
 
@@ -60,7 +59,6 @@ while True:
                     'time': datetime.datetime.strptime(people["datetime"], '%Y-%m-%d %H:%M:%S').time(), 
                     "location": people["location"], 
                     "username": people["username"], 
-                    "image_url": "http://192.168.31.7:5000/static/33cn/"+people["username"]+".jpg" 
                 })
         else:
             pass
