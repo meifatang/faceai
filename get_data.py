@@ -36,6 +36,7 @@ headers = {
 
 last_time = datetime.datetime.now()
 while True:
+    time1 = datetime.datetime.now()
     now_time = datetime.datetime.now()
     print(last_time.strftime('%Y-%m-%d %H:%M:%S'), " -> " ,now_time.strftime('%Y-%m-%d %H:%M:%S'))
     payload = {
@@ -76,5 +77,10 @@ while True:
         session.add(tmp)
         session.commit()
 
-    time.sleep(1)
     last_time = now_time
+
+    time2 = datetime.datetime.now()
+    if time2 - time1 < datetime.timedelta(seconds=1):
+        time.sleep(time2 - time1)
+    else:
+        pass
