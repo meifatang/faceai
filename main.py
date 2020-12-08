@@ -40,10 +40,10 @@ class Find(Resource):
         tmp = list()
         for i in People.query.all():
             tmp.append(i.get())
-        return jsonify({'data': tmp[-20:]})
+        return jsonify({'data': tmp[-5:]})
 
 api.add_resource(Find, '/find')
 
 
 if __name__ == '__main__':
-    app.run(debug=True, host='0.0.0.0')
+    app.run(host='0.0.0.0')

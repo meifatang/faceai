@@ -70,11 +70,11 @@ while True:
     for b in bunch:
         status = ''
         if not session.query(People).filter_by(date=b['date'], username=b['username']).first():
-            status = "Frist"
+            status = "First"
         
         tmp = People(date=b['date'], time=b['time'], location=b['location'], username=b['username'], status=status)
         session.add(tmp)
         session.commit()
 
-    time.sleep(1)
+    time.sleep(0.5)
     last_time = now_time
