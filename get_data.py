@@ -11,6 +11,7 @@ Base = declarative_base()
 engine = create_engine('sqlite:///sqlite.db')
 Base.metadata.create_all(engine)
 Session = sessionmaker(bind=engine)
+session = Session()
 
 class People(Base):
     __tablename__ = "faceai"
@@ -27,7 +28,7 @@ cameras = [
     { "url": "192.168.31.151", "location": "702A" },
     { "url": "192.168.31.181", "location": "702B" },
     { "url": "192.168.31.153", "location": "703A" },
-    { "url": "192.168.31.134", "location": "703B" },
+    { "url": "192.168.31.134", "location": "703B" }
 ]
 headers = {
     'Content-Type': 'application/x-www-form-urlencoded'
@@ -66,7 +67,6 @@ while True:
     bunch = sorted(bunch, key=lambda x: x['date'])
     bunch = sorted(bunch, key=lambda x: x['time'])
 
-    session = Session()
     for b in bunch:
         status = ''
         if not session.query(People).filter_by(date=b['date'], username=b['username']).first():
@@ -76,5 +76,5 @@ while True:
         session.add(tmp)
         session.commit()
 
-    time.sleep(0.5)
+    time.sleep(1)
     last_time = now_time
